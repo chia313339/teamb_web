@@ -23,4 +23,5 @@ RUN npm install -g http-server
 EXPOSE 8080
 
 # 啟動 HTTP 服務器來服務你的應用程式
-CMD ["http-server", "dist"]
+CMD ["http-server", "dist", "-c-1", "--proxy", "http://localhost:8080?"]
+

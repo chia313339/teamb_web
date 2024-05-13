@@ -62,6 +62,7 @@ export default {
       liff.logout();
       this.isLoggedIn = false;
       this.userInfo = null;
+      this.$router.push('/');  // 使用 Vue Router 的 push 方法來跳轉
       window.location.reload();
     },
     getUserProfile() {
