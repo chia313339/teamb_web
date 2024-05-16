@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Anada - Data Science & Analytics Template">
+
+    <!-- ========== Page Title ========== -->
+    <title>我的飲食記錄-小孩大聯盟</title>
+
+    <!-- ========== Favicon Icon ========== -->
+    <link rel="shortcut icon" href="/static/assets/img/favicon.ico" type="image/x-icon">
+
+    <!-- ========== Start Stylesheet ========== -->
+    <link href="/static/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/themify-icons.css" rel="stylesheet" />
+    <link href="/static/assets/css/flaticon-set.css" rel="stylesheet" />
+    <link href="/static/assets/css/magnific-popup.css" rel="stylesheet" />
+    <link href="/static/assets/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/animate.css" rel="stylesheet" />
+    <link href="/static/assets/css/bootsnav.css" rel="stylesheet" />
+    <link href="/static/assets/css/style.css" rel="stylesheet">
+    <link href="/static/assets/css/responsive.css" rel="stylesheet" />
+    <!-- ========== End Stylesheet ========== -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <![endif]-->
+
+    <!-- ========== Google Fonts ========== -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- Preloader Start -->
+        <div class="se-pre-con"></div>
+        <!-- Preloader Ends -->
+
+        <!-- Header ============================================= -->
+        <header id="home">
+
+            <!-- Start Navigation -->
+            <nav class="navbar navbar-default navbar-fixed-light attr-border navbar-fixed dark no-background bootsnav">
+
+                <!-- Start Top Search -->
+                <div class="container">
+                    <div class="row">
+                        <div class="top-search">
+                            <div class="input-group">
+                                <form action="#">
+                                    <input type="text" name="text" class="form-control" placeholder="Search">
+                                    <button type="submit">
+                                        <i class="ti-search"></i>
+                                    </button>  
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Top Search -->
+
+                <div class="container">
+
+                    <!-- Start Header Navigation -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle">
+                            <span v-if="isLoggedIn">
+                                Hi  {{ userInfo && userInfo.displayName }}
+                            </span>
+                            <span v-else>Team B</span>
+                        </button>
+                        <a class="navbar-brand" href="#home">
+                            <img src="/static/assets/img/logo-light2.png" class="logo default" alt="Logo">
+                            <img src="/static/assets/img/logo2.png" class="logo logo-responsive" alt="Logo">
+                        </a>
+                    </div>
+                    <!-- End Header Navigation -->
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+                            <li>
+                                <a><span v-if="isLoggedIn">
+                                    Hi  {{ userInfo && userInfo.displayName }}
+                                </span>
+                                <span v-else>您尚未登入</span></a>
+                            </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div>
+
+
+            </nav>
+            <!-- End Navigation -->
+
+        </header>
+        <!-- End Header -->
+
+        <!-- Start Banner 
+        ============================================= -->
+        <div class="banner-area text-combo top-pad-90 rectangular-shape bg-light-gradient">
+            <div class="item">
+                <div class="box-table">
+                    <div class="box-cell">
+                        <div class="container">
+                            <div class="row">
+                                <div class="double-items">
+                                    <div class="col-lg-6 info">
+                                        <h2 class="wow fadeInDown" data-wow-duration="1s"><span>雲世代計畫</span>我的飲食小助手</h2>
+                                        <p class="wow fadeInLeft" data-wow-duration="1.5s">
+                                            一起檢視過去的飲食記錄，看看你的健康狀況吧！
+                                        </p>
+                                        <a v-if="isLoggedIn" class="btn circle btn-md btn-gradient-logout wow fadeInUp" data-wow-duration="1.8s" href="#" @click="logout">登出換個帳號</a>
+                                        <a v-else class="btn circle btn-md btn-gradient wow fadeInUp" data-wow-duration="1.8s" href="#" @click="login">登入</a>
+                                    </div>
+                                    <div class="col-lg-6 thumb wow fadeInRight" data-wow-duration="1s">
+                                        <img src="/static/assets/img/illustration/1_2.png" alt="Thumb">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Banner -->
+
+        <div v-show="isLoggedIn">
+            <div class="fun-factor-area bg-white default-padding">
+                <!-- Fixed BG -->
+                <div class="fixed-bg" style="background-image: url(/static/assets/img/map.svg);"></div>
+                <!-- Fixed BG -->
+                <div class="container">
+                    <div class="client-items text-center">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 item">
+                                <div class="fun-fact">
+                                    <div class="timer" data-to="3" data-speed="5000">3</div>
+                                    <span class="medium">上傳次數</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 item">
+                                <div class="fun-fact">
+                                    <div class="timer" data-to="2348" data-speed="5000">2348</div>
+                                    <span class="medium">累積熱量</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 item">
+                                <div class="fun-fact">
+                                    <div class="timer" data-to="450" data-speed="5000">450</div>
+                                    <span class="medium">平均每餐熱量</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+                <!-- Start Blog Area
+        ============================================= -->
+        <div class="blog-area bg-gray left-border default-padding bottom-less">
+            <div class="container">
+                <div class="blog-items content-less">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <div class="site-heading text-center">
+                                <h4>我的上傳記錄</h4>
+                                <p>這邊文字是debug用，之後會拿掉</v-pre>
+                                <h5>
+                                    UserID:{{ userInfo && userInfo.userId }}
+                                </h5>
+                                <h5>
+                                    Data:{{customerInfo}}
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Single Item -->
+                        <div class="col-lg-4 col-md-6 single-item">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-03-04-46-49.jpg" alt="Thumb">
+                                        <div class="date">
+                                            <strong>135 大卡</strong> 
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <div class="meta">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-calendar"></i>
+                                            </li>
+                                            <li>
+                                                <a>2024-05-03 04:46:49</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>均衡飲食，多吃蔬菜水果，少吃油炸食品。這餐的熱量稍高，建議下次可以少吃一點炸雞，多吃一點蔬菜。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Item -->
+                        <!-- Single Item -->
+                        <div class="col-lg-4 col-md-6 single-item">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-11-08-39.jpg" alt="Thumb">
+                                        <div class="date">
+                                            <strong>521 大卡</strong>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <div class="meta">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-calendar"></i>
+                                            </li>
+                                            <li>
+                                                <a>2024-05-02 11:08:39</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>均衡飲食，多吃蔬菜水果，少吃油炸食物。每餐應攝取足夠的蛋白質、蔬菜和水果，並減少攝取精緻澱粉和糖。此外，應避免食用過多加工食品和含糖飲料。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Item -->
+                        <!-- Single Item -->
+                        <div class="col-lg-4 col-md-6 single-item">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-01-26-29.jpg" alt="Thumb">
+                                        <div class="date">
+                                            <strong>155 大卡</strong>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <div class="meta">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-calendar"></i>
+                                            </li>
+                                            <li>
+                                                <a>2024-05-02 01:26:29</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>適量飲酒，以免傷身</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Item -->
+                        <!-- Single Item -->
+                        <div class="col-lg-4 col-md-6 single-item">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-01-26-01.jpg" alt="Thumb">
+                                        <div class="date">
+                                            <strong>0</strong>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <div class="meta">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-calendar"></i>
+                                            </li>
+                                            <li>
+                                                <a>2024-05-02 01:26:01</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>這好像不是食物</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Item -->
+                        <!-- Single Item -->
+                        <div class="col-lg-4 col-md-6 single-item">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-01-23-51.jpg" alt="Thumb">
+                                        <div class="date">
+                                            <strong>100 大卡</strong>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <div class="meta">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-calendar"></i>
+                                            </li>
+                                            <li>
+                                                <a>2024-05-02 01:23:51</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>這是一杯熱咖啡，熱量不高，可以適量飲用。</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Item -->
+                        <!-- Single Item -->
+                        <div class="col-lg-4 col-md-6 single-item">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-04-29-08-48-06.jpg" alt="Thumb">
+                                        <div class="date">
+                                            <strong>384 大卡</strong>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <div class="meta">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-calendar"></i>
+                                            </li>
+                                            <li>
+                                                <a>2024-04-29 08:48:06</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>均衡飲食，多吃蔬菜水果，少吃油炸食物。建議你可以加一些蔬菜，這樣營養會更均衡。</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Item -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Blog Area -->
+        </div>
+
+
+
+
+        <!-- Star Footer
+        ============================================= -->
+        <footer>
+            <div class="container">
+
+                <div class="footer-bottom">
+                    <p>&copy; Copyright 2024. All Rights Reserved by <a href="#">TeamB 小孩大聯盟</a></p>
+                </div>
+            </div>
+            <!-- Shape -->
+            <div class="footer-shape" style="background-image: url(/static/assets/img/shape/1.svg);"></div>
+            <!-- End Shape -->
+        </footer>
+        <!-- End Footer-->
+    </div>
+    
+
+    <!-- jQuery Frameworks
+    ============================================= -->
+    <script src="/static/assets/js/jquery-1.12.4.min.js"></script>
+    <script src="/static/assets/js/popper.min.js"></script>
+    <script src="/static/assets/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/equal-height.min.js"></script>
+    <script src="/static/assets/js/jquery.appear.js"></script>
+    <script src="/static/assets/js/jquery.easing.min.js"></script>
+    <script src="/static/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="/static/assets/js/modernizr.custom.13711.js"></script>
+    <script src="/static/assets/js/owl.carousel.min.js"></script>
+    <script src="/static/assets/js/wow.min.js"></script>
+    <script src="/static/assets/js/progress-bar.min.js"></script>
+    <script src="/static/assets/js/isotope.pkgd.min.js"></script>
+    <script src="/static/assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/static/assets/js/count-to.js"></script>
+    <script src="/static/assets/js/YTPlayer.min.js"></script>
+    <script src="/static/assets/js/circle-progress.js"></script>
+    <script src="/static/assets/js/bootsnav.js"></script>
+    <script src="/static/assets/js/main.js"></script>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
+    <!-- <script src="/static/assets/js/vue3.min.js"></script> -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/static/assets/js/app.js"></script>
+
+</body>
+</html>
