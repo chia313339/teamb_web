@@ -9,7 +9,7 @@
     <meta name="description" content="Anada - Data Science & Analytics Template">
 
     <!-- ========== Page Title ========== -->
-    <title>我的飲食記錄-小孩大聯盟</title>
+    <title>飲食小助手-小孩大聯盟</title>
 
     <!-- ========== Favicon Icon ========== -->
     <link rel="shortcut icon" href="/static/assets/img/favicon.ico" type="image/x-icon">
@@ -42,7 +42,7 @@
     <div id="app">
 
         <!-- Preloader Start -->
-        <div class="se-pre-con"></div>
+        <!-- <div class="se-pre-con"></div> -->
         <!-- Preloader Ends -->
 
         <!-- Header ============================================= -->
@@ -134,7 +134,7 @@
         </div>
         <!-- End Banner -->
 
-        <div v-show="isLoggedIn">
+        <div v-if="isLoggedIn">
             <div class="fun-factor-area bg-white default-padding">
                 <!-- Fixed BG -->
                 <div class="fixed-bg" style="background-image: url(/static/assets/img/map.svg);"></div>
@@ -144,19 +144,19 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-6 item">
                                 <div class="fun-fact">
-                                    <div class="timer" data-to="3" data-speed="5000">3</div>
+                                    <div class="timer total-records" data-speed="2000">{{ totalRecords }}</div>
                                     <span class="medium">上傳次數</span>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6 item">
                                 <div class="fun-fact">
-                                    <div class="timer" data-to="2348" data-speed="5000">2348</div>
+                                    <div class="timer total-heat-sum" data-speed="2000">{{ formatNumber(totalHeatSum) }}</div>
                                     <span class="medium">累積熱量</span>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6 item">
                                 <div class="fun-fact">
-                                    <div class="timer" data-to="450" data-speed="5000">450</div>
+                                    <div class="timer average-heat" data-speed="2000">{{ formatNumber(averageHeat) }}</div>
                                     <span class="medium">平均每餐熱量</span>
                                 </div>
                             </div>
@@ -165,201 +165,72 @@
                 </div>
             </div>
     
-                <!-- Start Blog Area
-        ============================================= -->
-        <div class="blog-area bg-gray left-border default-padding bottom-less">
-            <div class="container">
-                <div class="blog-items content-less">
-                    <div class="row">
-                        <div class="col-lg-8 offset-lg-2">
-                            <div class="site-heading text-center">
-                                <h4>我的上傳記錄</h4>
-                                <p>這邊文字是debug用，之後會拿掉</v-pre>
-                                <h5>
-                                    UserID:{{ userInfo && userInfo.userId }}
-                                </h5>
-                                <h5>
-                                    Data:{{customerInfo}}
-                                </h5>
+            <!-- Start Blog Area
+            ============================================= -->
+            <div class="blog-area bg-gray left-border default-padding bottom-less">
+                <div class="container">
+                    <div class="blog-items content-less">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="site-heading text-center">
+                                    <h4>我的上傳記錄</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div v-for="(info, index) in limitedCustomerInfo" :key="index" class="col-lg-4 col-md-6 ">
+                                <!-- Single Item -->
+                                    <div class="single-item">
+                                        <div class="item">
+                                            <div class="thumb">
+                                                <a href="#" @click.prevent="showImage(info.pic_name)">
+                                                    <img :src="`https://teamb-image.s3.ap-southeast-1.amazonaws.com/${info.pic_name}`" alt="Thumb">
+                                                    <div class="date">
+                                                        <strong>{{ formatNumber(info.heat_sum) }}大卡</strong> 
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="info">
+                                                <div class="meta">
+                                                    <ul>
+                                                        <li>
+                                                            <i class="fas fa-calendar"></i>
+                                                        </li>
+                                                        <li>
+                                                            <a>{{ formatDate(info.update_date) }}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <p>{{ info.active }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- End Single Item -->
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <!-- Single Item -->
-                        <div class="col-lg-4 col-md-6 single-item">
-                            <div class="item">
-                                <div class="thumb">
-                                    <a href="#">
-                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-03-04-46-49.jpg" alt="Thumb">
-                                        <div class="date">
-                                            <strong>135 大卡</strong> 
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <i class="fas fa-calendar"></i>
-                                            </li>
-                                            <li>
-                                                <a>2024-05-03 04:46:49</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p>均衡飲食，多吃蔬菜水果，少吃油炸食品。這餐的熱量稍高，建議下次可以少吃一點炸雞，多吃一點蔬菜。</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Item -->
-                        <!-- Single Item -->
-                        <div class="col-lg-4 col-md-6 single-item">
-                            <div class="item">
-                                <div class="thumb">
-                                    <a href="#">
-                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-11-08-39.jpg" alt="Thumb">
-                                        <div class="date">
-                                            <strong>521 大卡</strong>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <i class="fas fa-calendar"></i>
-                                            </li>
-                                            <li>
-                                                <a>2024-05-02 11:08:39</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p>均衡飲食，多吃蔬菜水果，少吃油炸食物。每餐應攝取足夠的蛋白質、蔬菜和水果，並減少攝取精緻澱粉和糖。此外，應避免食用過多加工食品和含糖飲料。</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Item -->
-                        <!-- Single Item -->
-                        <div class="col-lg-4 col-md-6 single-item">
-                            <div class="item">
-                                <div class="thumb">
-                                    <a href="#">
-                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-01-26-29.jpg" alt="Thumb">
-                                        <div class="date">
-                                            <strong>155 大卡</strong>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <i class="fas fa-calendar"></i>
-                                            </li>
-                                            <li>
-                                                <a>2024-05-02 01:26:29</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p>適量飲酒，以免傷身</p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Item -->
-                        <!-- Single Item -->
-                        <div class="col-lg-4 col-md-6 single-item">
-                            <div class="item">
-                                <div class="thumb">
-                                    <a href="#">
-                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-01-26-01.jpg" alt="Thumb">
-                                        <div class="date">
-                                            <strong>0</strong>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <i class="fas fa-calendar"></i>
-                                            </li>
-                                            <li>
-                                                <a>2024-05-02 01:26:01</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p>這好像不是食物</p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Item -->
-                        <!-- Single Item -->
-                        <div class="col-lg-4 col-md-6 single-item">
-                            <div class="item">
-                                <div class="thumb">
-                                    <a href="#">
-                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-05-02-01-23-51.jpg" alt="Thumb">
-                                        <div class="date">
-                                            <strong>100 大卡</strong>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <i class="fas fa-calendar"></i>
-                                            </li>
-                                            <li>
-                                                <a>2024-05-02 01:23:51</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p>這是一杯熱咖啡，熱量不高，可以適量飲用。</p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Item -->
-                        <!-- Single Item -->
-                        <div class="col-lg-4 col-md-6 single-item">
-                            <div class="item">
-                                <div class="thumb">
-                                    <a href="#">
-                                        <img src="https://teamb-image.s3.ap-southeast-1.amazonaws.com/U0a51e19d6e93adb3f3075fb90b4676d2_2024-04-29-08-48-06.jpg" alt="Thumb">
-                                        <div class="date">
-                                            <strong>384 大卡</strong>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <i class="fas fa-calendar"></i>
-                                            </li>
-                                            <li>
-                                                <a>2024-04-29 08:48:06</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p>均衡飲食，多吃蔬菜水果，少吃油炸食物。建議你可以加一些蔬菜，這樣營養會更均衡。</p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Item -->
+                </div>
+            </div>
+            <!-- End Blog Area -->
+            
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">放大圖片</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img :src="`https://teamb-image.s3.ap-southeast-1.amazonaws.com/${modalImage}`" alt="Thumb" class="img-fluid">
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Blog Area -->
-        </div>
-
-
-
 
         <!-- Star Footer
         ============================================= -->
@@ -399,7 +270,6 @@
     <script src="/static/assets/js/bootsnav.js"></script>
     <script src="/static/assets/js/main.js"></script>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
-    <!-- <script src="/static/assets/js/vue3.min.js"></script> -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="/static/assets/js/app.js"></script>
 
